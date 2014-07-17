@@ -36,6 +36,23 @@ class Note
     # regresa las instancias de la clase note
   end
 
+  def self.build_using_questions
+    args = {}
+
+    print "Titulo de la nota: "
+    args[:title] = gets.chomp.strip
+
+    print "Contenido de la nota: "
+    args[:content] = gets.chomp.strip
+
+    return self.new(args)
+  end
+
+  def initialize(args={})
+    @title   = args[:title]   || ""
+    @content = args[:content] || ""
+  end
+
   def save
     return false unless Note.file_usable?
     File.open(@@filepath, "a") do |file|

@@ -67,13 +67,8 @@ class Cli
 
   def add
     puts "\nAgrega una nota".upcase
-    nota = Note.new
 
-    print "Titulo de la nota: "
-    nota.title = gets.chomp.strip
-
-    print "Contenido de la nota: "
-    nota.content = gets.chomp.strip
+    nota = Note.build_using_questions
 
     if nota.save
       puts "\nNota guardada\n\n"
