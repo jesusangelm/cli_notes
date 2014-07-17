@@ -2,6 +2,12 @@ require "note"
 
 class Cli
 
+  class Config
+    @@actions = ["listar", "buscar", "agregar", "salir"]
+    def self.actions; @@actions; end
+  end
+
+
   def initialize(path=nil)
     #localizar el archivo notas.txt en la path (ruta)
     Note.filepath = path
@@ -26,14 +32,22 @@ class Cli
     # bucle de actiones
     result = nil
     until result == :quit
-    #   que se quiere hacer? (listar, buscar, agregar. salir)
-      print "> "
-      user_response = gets.chomp
-    #   hacer esa accion
-      result = do_action(user_response)
+      action = get_action
+      result = do_action(action)
     end
     # mensaje de despedida
     goodbye
+  end
+
+  def get_action
+    action = nil
+    until Cli::Config.actions.include?(action)
+      puts "Comandos soportados: " + Cli::Config.actions.join(", ") if action
+      print "> "
+      user_response = gets.chomp
+      action = user_response.downcase.strip
+    end
+    return action
   end
 
   def do_action(action)
