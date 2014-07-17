@@ -32,8 +32,15 @@ class Note
   end
 
   def self.saved_notes
-    # lee el archivo notas.txt
-    # regresa las instancias de la clase note
+    notas = []
+    if file_usable?
+      file = File.new(@@filepath, "r")
+      file.each_line do |line|
+        notas << Note.new.import_line(line.chomp)
+      end
+      file.close
+    end
+    return notas
   end
 
   def self.build_using_questions
@@ -51,6 +58,12 @@ class Note
   def initialize(args={})
     @title   = args[:title]   || ""
     @content = args[:content] || ""
+  end
+
+  def import_line(line)
+    line_array = line.split("\t")
+    @title, @content = line_array
+    return self
   end
 
   def save

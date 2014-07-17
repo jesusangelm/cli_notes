@@ -53,7 +53,7 @@ class Cli
   def do_action(action)
     case action
     when "listar"
-      puts "listando notas..."
+      list
     when "buscar"
       puts "buncando notas..."
     when "agregar"
@@ -63,6 +63,12 @@ class Cli
     else
       puts "\nNo soporto el comando #{action}, intenta de nuevo.\n"
     end
+  end
+
+  def list
+    puts "\nListando de notas\n\n".upcase
+    notas = Note.saved_notes
+    notas.each { |nota|  puts nota.title + " | " + nota.content }
   end
 
   def add
