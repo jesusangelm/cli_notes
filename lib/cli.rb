@@ -23,13 +23,32 @@ class Cli
     # mensaje bienvenida
     welcome
 
-    # loop de actiones
+    # bucle de actiones
+    result = nil
+    until result == :quit
     #   que se quiere hacer? (listar, buscar, agregar. salir)
+      print "> "
+      user_response = gets.chomp
     #   hacer esa accion
-    # repetir hasta que el usuario salga
-    #
+      result = do_action(user_response)
+    end
     # mensaje de despedida
     goodbye
+  end
+
+  def do_action(action)
+    case action
+    when "listar"
+      puts "listando notas..."
+    when "buscar"
+      puts "buncando notas..."
+    when "agregar"
+      puts "agregando su nota"
+    when "salir"
+      return :quit
+    else
+      puts "\nNo soporto el comando #{action}, intenta de nuevo.\n"
+    end
   end
 
   def welcome
