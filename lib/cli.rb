@@ -57,11 +57,28 @@ class Cli
     when "buscar"
       puts "buncando notas..."
     when "agregar"
-      puts "agregando su nota"
+      add
     when "salir"
       return :quit
     else
       puts "\nNo soporto el comando #{action}, intenta de nuevo.\n"
+    end
+  end
+
+  def add
+    puts "\nAgrega una nota".upcase
+    nota = Note.new
+
+    print "Titulo de la nota: "
+    nota.title = gets.chomp.strip
+
+    print "Contenido de la nota: "
+    nota.content = gets.chomp.strip
+
+    if nota.save
+      puts "\nNota guardada\n\n"
+    else
+      puts "\nError: al guardar la nota\n\n"
     end
   end
 

@@ -1,5 +1,7 @@
 class Note
 
+  attr_accessor :title, :content
+
   @@filepath = nil
 
   def self.filepath=(path=nil)
@@ -32,6 +34,14 @@ class Note
   def self.saved_notes
     # lee el archivo notas.txt
     # regresa las instancias de la clase note
+  end
+
+  def save
+    return false unless Note.file_usable?
+    File.open(@@filepath, "a") do |file|
+      file.puts "#{[@title, @content].join("\t")}\n"
+    end
+    return true
   end
 
 end
