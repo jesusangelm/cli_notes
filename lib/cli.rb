@@ -5,7 +5,7 @@ class Cli
   def initialize(path=nil)
     #localizar el archivo notas.txt en la path (ruta)
     Note.filepath = path
-    if Note.file_exist?
+    if Note.file_usable?
       puts "Archivo notas.txt encontrado."
     #o crea un archivo nota.txt nuevo en caso de que no exista
     elsif Note.create_file
