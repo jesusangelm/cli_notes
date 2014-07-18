@@ -32,8 +32,8 @@ class Cli
     # bucle de actiones
     result = nil
     until result == :quit
-      action = get_action
-      result = do_action(action)
+      action, args = get_action
+      result = do_action(action, args)
     end
     # mensaje de despedida
     goodbye
@@ -45,17 +45,19 @@ class Cli
       puts "Comandos soportados: " + Cli::Config.actions.join(", ") if action
       print "> "
       user_response = gets.chomp
-      action = user_response.downcase.strip
+      args = user_response.downcase.strip.split(" ")
+      action = args.shift
     end
-    return action
+    return action, args
   end
 
-  def do_action(action)
+  def do_action(action, args=[])
     case action
     when "listar"
       list
     when "buscar"
-      puts "buncando notas..."
+      keyword = args.shift
+      find(keyword)
     when "agregar"
       add
     when "salir"
@@ -69,6 +71,21 @@ class Cli
     output_action_header("listado de notas")
     notas = Note.saved_notes
     output_note_table(notas)
+  end
+
+  def find(keyword="")
+    output_action_header("buscar una nota")
+    if keyword
+      notes = Note.saved_notes
+      found = notes.select do |note|
+        note.title.downcase.include?(keyword.downcase) ||
+        note.content.downcase.include?(keyword.downcase)
+      end
+      output_note_table(found)
+    else
+      puts "Busca una nota usndo el comando 'buscar' y la palabra a buscar."
+      puts "Ejemplo: 'buscar nota'. \n\n"
+    end
   end
 
   def add
