@@ -73,5 +73,4 @@ class Note
     end
     return true
   end
-
 end

@@ -66,13 +66,13 @@ class Cli
   end
 
   def list
-    puts "\nListando de notas\n\n".upcase
+    output_action_header("listado de notas")
     notas = Note.saved_notes
-    notas.each { |nota|  puts nota.title + " | " + nota.content }
+    output_note_table(notas)
   end
 
   def add
-    puts "\nAgrega una nota".upcase
+    output_action_header("\nAgrega una nota")
 
     nota = Note.build_using_questions
 
@@ -92,4 +92,23 @@ class Cli
     puts "\n<<<< Hasta luego! >>>>\n\n\n"
   end
 
+
+  private
+
+  def output_action_header(text)
+    puts "\n#{text.upcase.center(30)}\n\n"
+  end
+
+  def output_note_table(notes)
+    print " " + "Titulo".ljust(30)
+    print " " + "Contenido".ljust(20) + "\n"
+    puts "-" * 100
+    notes.each do |note|
+      line = " " << note.title.ljust(30).capitalize
+      line << " " + note.content.ljust(20).capitalize
+      puts line
+    end
+    puts "No se encontraron notas" if notes.empty? 
+    puts "-" * 100
+  end
 end
